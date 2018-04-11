@@ -20,8 +20,21 @@ W=[np.array([[0.81541349, 0.40386227],
     np.array([[0.00886935, 0.94910974, 0.33293171, 0.96861212],
        [0.16354823, 0.56671185, 0.59666782, 0.74834818]]), 
     np.array([[0.57565299, 0.72959389]])]
+B=[np.array([[0.26303924],
+       [0.33315098],
+       [0.84293002],
+       [0.82292826]]), np.array([[0.40841424],
+       [0.59467294],
+       [0.61942453],
+       [0.16538536]]), np.array([[0.97589518],
+       [0.81773972]]), np.array([[0.74921588]])]
 #print(W[0].shape)
-a = Dlearn_function.Deeplearn(2,Unit,W)
+a = Dlearn_function.Deeplearn(2,Unit,W,B)
+a.Check_parameter()
+print(a.B)
+a.Init_parameter()
+print(a.B)
+
 
 #print(a)
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
+
 class Deeplearn:
     """
     深度学习代码
@@ -17,47 +18,71 @@ class Deeplearn:
             Unit:表示初始模型各层隐藏单元个数
                 eg：（4，4，2，1）表示共4层，1-4层隐藏单元个数分别为4，4，2，1
         """
-        if W == [] :
-            for n in range(len(Unit)):
-                if n == 0:
-                   W.append(np.random.random((Unit[n],X_num)))
-                else:
-                    W.append(np.random.random((Unit[n],Unit[n-1]))) 
-        else:
-            for n in range(len(W)):
-                try:
-                if n == 0:
-                    assert W[n].shape == (Unit[n],X_num)
-                else:
-                    assert W[n].shape == (Unit[n],Unit[n-1])
-                except:
+        self.flag = 1
+        self.X_num = X_num
+        self.Unit = Unit
+        self.B = B
+        self.W = W
+        self.F = F
+        self.Z = []
+        self.A = []
+        
+        
+    def Init_parameter(self):
+        for n in range(len(self.Unit)):
+            if n == 0:
+                self.W.append(np.random.random((self.Unit[n],self.X_num)))
+            else:
+                self.W.append(np.random.random((self.Unit[n],self.Unit[n-1])))
+            self.B.append(np.random.random((self.Unit[n],1)))
 
-        
-        
-    def Check_parameter(W,B,X,F,Unit):
+            
+            
+    def Check_parameter(self):
         """
-        
-        
-        """
-        a=2
-        
-        
-        
-    def Forward_propagation(W,B,X,F,Unit):
-        """
-        正向传播函数
-        Argument:
-        W:当前函数参数w所组成的矩阵
-        B:当前常数参量b所组成的矩阵
-        X:输入
-        F:激活函数
+        检查各参数维度是否合格
         Returns:
-        Y:当前参数所计算输出结果
+            FLAG:验证成功与否标识位，False 失败，True 成功
+        """
+        for n in range(len(self.W)):
+            try:
+                if n == 0:
+                    assert self.W[n].shape == (self.Unit[n],self.X_num)
+                else:
+                    assert self.W[n].shape == (self.Unit[n],self.Unit[n-1])
+            except:
+                print("第"+ str(n) +"层w参数维度不和，请确认！")
+                self.flag = 0
+        for n in range(len(self.Unit)):
+            try:
+                assert self.B[n].shape == (self.Unit[n],1)
+            except:
+                print("第"+ str(n) +"层b参数维度不和，请确认！")
+                self.flag = 0
+            try:
+                assert self.F[n].shape == (self.Unit[n],1)
+            except:
+                print("第"+ str(n) +"层f激活函数维度不和，请确认！")
+                self.flag = 0
+        if self.flag == 0:
+            return False
+        else:
+            return True
+        
+        
+        
+        
+    def Forward_propagation(self,X):
+        """
+        Argument:
+            X输入
         """
         #Z=W*X+B，Y=g(Z)
-        Z=np.dot(W,X)+B
-        Y=F(Z)
-        return Z,Y
+        self.A.append(X)
+        for n in range(len(self.Unit)):
+            self.Z.append(np.dot(self.W[n],self.A[n])+self.B[n])
+            self.A.append(self.F[n](self.Z[n]))
+        
     
     def Back_propagation():
         w=3
